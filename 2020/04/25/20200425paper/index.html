@@ -1,0 +1,140 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="第七周paper总结"><meta name="keywords" content="paper,Named Entity Recognition,MRC,Transfer Learning,Thought"><meta name="author" content="Ian"><meta name="copyright" content="Ian"><title>第七周paper总结 | 小僧有点二</title><link rel="shortcut icon" href="https://ian-1259157142.cos.ap-beijing.myqcloud.com/Blog_self/favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.1.1/dist/instantsearch.min.js" defer></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?23e67fb29291e5dc0f0f7c9f882ac0ea";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://v1.hitokoto.cn/?encode=js&amp;charset=utf-8&amp;select=.footer_custom_text" defer></script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"8XJAI86SDA","apiKey":"f1fda4bfbc8839aa09272440cf9215d1","indexName":"ian-peace","hits":{"per_page":10},"languages":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}.","hits_stats":"${hits} results found in ${time} ms"}},
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 4.2.0"></head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="false"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#工作进展"><span class="toc-number">1.</span> <span class="toc-text"> 工作进展</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#the-first-paper-transfer-learning-for-mrc"><span class="toc-number">2.</span> <span class="toc-text"> The first paper, Transfer Learning for MRC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#the-second-paper-dice-loss-for-nlp"><span class="toc-number">3.</span> <span class="toc-text"> The second paper, Dice Loss for NLP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#摆正想法"><span class="toc-number">4.</span> <span class="toc-text"> 摆正想法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#reference"><span class="toc-number">5.</span> <span class="toc-text"> Reference</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://ian-1259157142.cos.ap-beijing.myqcloud.com/Blog_self/xiaoseng.png"></div><div class="author-info__name text-center">Ian</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">10</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">27</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">2</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://ian-1259157142.cos.ap-beijing.myqcloud.com/Blog_self/top-img-75.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">小僧有点二</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/about">About</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> Search</span></a></span></div><div id="post-info"><div id="post-title">第七周paper总结</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-04-25</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Machine-Learning/">Machine Learning</a><div class="post-meta-wordcount"><span>Word count: </span><span class="word-count">2.1k</span><span class="post-meta__separator">|</span><span>Reading time: 6 min</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>两篇论文：</p>
+<ul>
+<li>Two-Stage Synthesis Networks for Transfer Learning in Machine Comprehension  做阅读理解的迁移学习任务。</li>
+<li>Dice Loss for Data-imbalanced NLP Tasks  使用Dice Loss，平衡数据的正负例。</li>
+</ul>
+<p><strong>摆正想法：</strong></p>
+<p>​	实体识别任务的迁移为主体，实体识别任务使用阅读理解的目的是为了更好地确定实体边界，阅读理解任务只是辅助。</p>
+<p>博客地址：<a href="https://ian-peace.github.io">https://ian-peace.github.io</a></p>
+<a id="more"></a>
+<h2 id="工作进展"><a class="markdownIt-Anchor" href="#工作进展"></a> 工作进展</h2>
+<p>对论文《A Unified MRC Framework for Named Entity Recognition》的想法</p>
+<ol>
+<li>
+<p>论文只用了普通的MRC结构(bert+分类器)，如果用专门来做领域迁移的MRC模型，表现应该会更好。</p>
+<ol>
+<li>
+<p>近两年都没有相关研究，师兄说阅读理解跨领域的研究动机不足，现在在语言模型的作用下，先在大数据上跑一遍再去特定领域结果就已经很不错了，并且如果两个领域区别大的话，就是需要用到不同的知识库，那就是KBQA的任务了；</p>
+</li>
+<li>
+<p>17年微软发过一篇文章，《Two-Stage Synthesis Networks for Transfer Learning in Machine Comprehension》，它是用来做阅读理解的迁移学习的，后面论文部分会有介绍。</p>
+</li>
+<li>
+<p>引入外部知识的阅读理解</p>
+<ul>
+<li>
+<p>Multi-task Learning with Sample Re-weighting for Machine Reading Comprehension，19NAACL</p>
+<p>探索Multi-task Learning在阅读理解上的效果，不过不是用Bert模型，而是基于LSTM结构，该模型可以应用于不同领域的各种MRC任务。</p>
+</li>
+<li>
+<p>MultiQA: An Empirical Investigation of Generalization and Transfer in Reading Comprehension，19ACL</p>
+<p>探索了不同阅读理解数据集间的迁移特性，主要尝试回答下面几个问题：</p>
+<ul>
+<li>Do models generalize to unseen datasets?</li>
+<li>Does pre-training improve results on small datasets?</li>
+<li>Does context augmentation improve performance?</li>
+<li>Does training on multiple datasets improve BERTQA?</li>
+</ul>
+</li>
+<li>
+<p>Investigating Prior Knowledge for Challenging Chinese Machine Reading Comprehension，未发表</p>
+<p>文章构建了一个中文阅读理解数据集C3，并探索了语言信息、领域和通用知识对中文阅读理解的影响。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>前两天看到知乎上有一篇文章，它在讲，后Bert时代NLP任务的过程基本是<strong>Pre-training+(Post-training)+fine-tune</strong>。</p>
+<p>而在一个具体的任务上Pre-training和fine-tune可操作的空间并不大，那么关键在于Post-training。作者将Post-training细分为：</p>
+<ul>
+<li>无监督Domain预训练，类似于Pre-training，只是用来Domain的数据</li>
+<li>有监督Multi-task迁移训练，作者在想，能否将阅读理解作为一个中间结构，将不同的任务都转换为阅读理解问题得到大量的有标注数据，然后利用这些具有统一表示的有标数据进行multi-task Post-training，然后再在目标任务上fine-tune。通过这些大量的有监督数据来学习通用的语言、语法、语义信息。</li>
+</ul>
+</li>
+<li>
+<p>但这么大的量级的实验感觉我们很难实现，不过如果只用两三个任务呢？实体识别和实体关系抽取？或是其他与实体相关的、数据更多的任务。即源领域为NER任务，目标领域为关系抽取任务，都转化成阅读理解任务，再在目标领域进行实体识别。</p>
+</li>
+</ol>
+</li>
+<li>
+<p>论文Loss使用交叉熵，是否可以使用《Dice Loss for Data-imbalanced NLP Tasks》中的Dice Loss？</p>
+</li>
+</ol>
+<h2 id="the-first-paper-transfer-learning-for-mrc"><a class="markdownIt-Anchor" href="#the-first-paper-transfer-learning-for-mrc"></a> The first paper, Transfer Learning for MRC</h2>
+<p><em>《Two-Stage Synthesis Networks for Transfer Learning in Machine Comprehension》</em></p>
+<p>为了解决在新领域人工标注数据不充足以及模型迁移的问题，论文利用已有领域中的大规模高质量监督数据为基础进行训练，让模型学习在文本上自动生成<strong>问答对</strong>的能力，然后迁移到无监督数据的新领域中，在新领域中自动合成QA对，替代人工标注，以此来训练该领域的MRC系统。</p>
+<p>模型分为两个模块：</p>
+<ul>
+<li>答案生成模块，抽取式任务，用序列标注的方法预测每个单词是否为答案，抽取文本中的关键语义概念作为答案，输入问题生成模块。</li>
+<li>问题生成模块，生成式任务，根据答案和文本生成问题。</li>
+</ul>
+<p>**结果：**作者先用SQuAD数据集训练模型，然后把它应用到NewsQA数据集上，发现它的效果与直接在NewsQA上训练的模型相差不多。所以可以说它的迁移效果还是挺好的，那能否把这个想法用在阅读理解做NER任务上。很直接的想法是：</p>
+<ul>
+<li>在源领域训练，在目标领域通过序列标注生成答案</li>
+<li>用目标领域文本和上一步生成的答案，生成问题</li>
+</ul>
+<p>但命名实体识别任务的问题，应该是固定的。如果让模型自动生成QA对，那训练完成后，用固定的问题做阅读理解拿到实体识别结果，达到的表现能否和这篇论文一样，和直接在目标领域训练的结果相差不大？</p>
+<h2 id="the-second-paper-dice-loss-for-nlp"><a class="markdownIt-Anchor" href="#the-second-paper-dice-loss-for-nlp"></a> The second paper, Dice Loss for NLP</h2>
+<p><em>《Dice Loss for Data-imbalanced NLP Tasks》</em></p>
+<p>论文解决的是NLP任务中数据不平衡的问题，例如在命名实体识别任务中：</p>
+<p>我们一般使用BIEOS，如果我们把O视为负例，其他视为正例，那么负例数和正例数之比是相当大的，这种不平衡会导致两个问题：</p>
+<ul>
+<li>训练与测试不匹配。占据绝大多数的负例会支配模型的训练过程，导致模型倾向于负例，而测试时使用的F1指标需要每个类都能准确预测；</li>
+<li>简单负例过多。负例占绝大多数也意味着其中包含了很多简单样本，这些简单样本对于模型学习困难样本几乎没有帮助，反而会在交叉熵的作用下推动模型遗忘对困难样本的知识；</li>
+</ul>
+<p>总的来说，大量简单负例会在交叉熵的作用下推动模型忽视困难正例的学习，而实体识别任务往往使用F1衡量，从而在正例上预测欠佳直接导致了F1值偏低。</p>
+<p>作者认为这种问题是交叉熵带来的，交叉熵“平等”地看待每一个样本，无论正负，都尽力把它们推向1（正例）或0（负例）。</p>
+<p>但实际上，对分类而言，将一个样本分类为负只需要它的概率＜0.5即可，完全没有必要将它推向0。</p>
+<p>由此提出一个基于Dice Loss的自适应损失——DSC，在训练时推动模型更加关注困难的样本，降低简单负例的学习度，从而在整体上提高基于F1值的效果。结果在词性标注数据集、命名实体识别数据集、问答数据集都超过了当前最佳结果。</p>
+<h2 id="摆正想法"><a class="markdownIt-Anchor" href="#摆正想法"></a> 摆正想法</h2>
+<p>实体识别任务使用阅读理解的目的是为了更好地确定实体边界，因为阅读理解任务有对于语义块的划分(span操作)，主体是实体识别任务，阅读理解只是辅助。</p>
+<p>语义方面，NER的语料其实也不缺，当下bert已经获取的知识足够多，少的只是一些不常见领域的语料，那实体迁移任务，要考虑的应该是问答的迁移库，以及问答提供的划分边界的能力，而非问答获得的语义知识。</p>
+<ol>
+<li>
+<p>回归之前实体识别迁移的进程</p>
+</li>
+<li>
+<p>LM做实体识别迁移的模型中，能否添加阅读理解的词边界信息？</p>
+</li>
+<li>
+<p>或者是阅读理解做NER任务的模型中，是否可以添加LM用来进行迁移？<strong>当前思考目标</strong></p>
+</li>
+<li>
+<p>在第2点中，要考虑不同领域，实体类别不一致，是如何做到的？</p>
+</li>
+</ol>
+<h2 id="reference"><a class="markdownIt-Anchor" href="#reference"></a> Reference</h2>
+<p>[1] Two-Stage Synthesis Networks for Transfer Learning in Machine Comprehension.</p>
+<p>[2] Dice Loss for Data-imbalanced NLP Tasks.</p>
+<p>[3] 论文阅读笔记《Two-Stage Synthesis Networks for Transfer Learning in Machine Comprehension》. <a href="%5Bhttp://www.maplelearning.cn/index.php/2019/12/03/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E3%80%8Atwo-stage-synthesis-networks-for-transfer-learning-in-machine-comprehension%E3%80%8B/%5D(http://www.maplelearning.cn/index.php/2019/12/03/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E3%80%8Atwo-stage-synthesis-networks-for-transfer-learning-in-machine-comprehension%E3%80%8B/)">链接</a></p>
+<p>[4] 后Bert时代机器阅读理解. <a href="https://zhuanlan.zhihu.com/p/68893946" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/68893946</a></p>
+<p>[5] ACL2020 | 香侬科技提出使用Dice Loss缓解数据集数据不平衡问题. <a href="https://zhuanlan.zhihu.com/p/128066632" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/128066632</a></p>
+<p>[6] 论文分享：Dice Loss for Data-imbalanced NLP Tasks. <a href="https://zhuanlan.zhihu.com/p/106802620" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/106802620</a></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Ian</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://ian-peace.github.io/2020/04/25/20200425paper/">http://ian-peace.github.io/2020/04/25/20200425paper/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/paper/">paper</a><a class="post-meta__tags" href="/tags/Named-Entity-Recognition/">Named Entity Recognition</a><a class="post-meta__tags" href="/tags/MRC/">MRC</a><a class="post-meta__tags" href="/tags/Transfer-Learning/">Transfer Learning</a><a class="post-meta__tags" href="/tags/Thought/">Thought</a></div><div class="post-qr-code"><div class="post-qr-code-item"><img class="post-qr-code__img" src="https://ian-1259157142.cos.ap-beijing.myqcloud.com/Blog_self/ian-peace.png"><div class="post-qr-code__desc">微信订阅号</div></div></div><nav id="pagination"><div class="next-post pull-right"><a href="/2020/04/18/20200416paper/"><span>第六周paper总结</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
+  clientID: '73becf39601f4aaa0a91',
+  clientSecret: '6da05639806d66834500b149e950cd54c3d3737c',
+  repo: 'Blog-Comment-Repo',
+  owner: 'Ian-peace',
+  admin: 'Ian-peace',
+  id: md5(decodeURI(location.pathname)),
+  language: 'en'
+})
+gitalk.render('gitalk-container')</script></div></div><footer class="footer-bg" style="background-image: url(https://ian-1259157142.cos.ap-beijing.myqcloud.com/Blog_self/top-img-75.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2020 By Ian</div><div class="framework-info"><span>Driven - </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody" target="_blank" rel="noopener"><span>Melody</span></a></div><div class="footer_custom_text">hitokoto</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script src="/js/search/algolia.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css"><script src="/js/katex.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="algolia-search"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
